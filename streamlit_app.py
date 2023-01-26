@@ -18,3 +18,24 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 
 # Display the table on the page.
 streamlit.dataframe(fruits_to_show)
+
+import snowflake.connector
+snowflake-connector-python[pandas] pyarrow<8.1.0,>=8.0.0
+my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+my_cur = my_cnx.cursor()
+my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
+my_data_row = my_cur.fetchone()
+streamlit.text("Hello from Snowflake:")
+streamlit.text(my_data_row)
+my_data_row = my_cur.fetchone()
+streamlit.header( "The Fruit list Load Contains:")
+streamlit.dataframe(my_data_row)
+
+my_cur.execute("select * from fruit_load_list")
+my_data_rows = my_cur.fetchall()
+streamlit.header( "The Fruit list Load Contains:")
+streamlit.dataframe(my_data_rows)
+
+streamlit.write ('thanks for adding', add my fruit)
+my_cur.execute("insert into fruit_load_list values ('from streamlit')")
+
