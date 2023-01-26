@@ -47,7 +47,7 @@ streamlit.dataframe(fruits_to_show)
   #if not fruit_choice:
     #streamlit.error("Please select a fruit to get information.")
    #else:
-    #fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice")
+    #fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
     #fruitvice_normalized = pandas.json_normalize(fruitvice_response.json())
     #streamlit.dataframe(fruitvice_normalized)
  #except urlerror as e:
@@ -55,7 +55,7 @@ streamlit.dataframe(fruits_to_show)
                                        
  #Revised for Function Call / Repetable Code Block
 def get_fruitvice_data(this_fruit_choice):
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + this_fruit_choice")
+fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + this_fruit_choice)
 fruitvice_normalized = pandas.json_normalize(fruitvice_response.json())
 return fruitvice_normalized
 
@@ -99,7 +99,8 @@ my_cur.execute("select * from fruit_load_list")
 return my_cur.fetchall()
  # add a button to load the list
 if streamlit.button('Get fruit load list') :
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])                                     
+my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+my_cnx.close()                                   
 my_data_rows = get_fruit_load_list()
 streamlit.dataframe(my_data_rows)                                   
                                    
