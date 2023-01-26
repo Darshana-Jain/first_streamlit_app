@@ -26,14 +26,32 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 streamlit.dataframe(fruits_to_show)
 
 #new section to display fruitvice api response
-streamlit.header("Fruityvice Fruit Advice!")
-fruit_choice = streamlit.text_input ('what fruit would you like to information about?')
-streamlit.write('The user entered', fruit_choice)
+#streamlit.header("Fruityvice Fruit Advice!")
+#fruit_choice = streamlit.text_input ('what fruit would you like to information about?','Kiwi')
+#streamlit.write('The user entered', fruit_choice)
 
 
 #import requests
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
-streamlit.text(fruityvice_response.json())
+#streamlit.text(fruityvice_response.json())
+#fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice")
+#take the json verson and normalized it   
+#fruitvice_normalized = pandas.json_normalize (fruitvice_response.json())
+# Output as table
+#streamlit.dataframe(fruitvice_normalized)
+
+# Revised
+#new section to display fruitvice api response
+streamlit.header("Fruityvice Fruit Advice!")
+try:
+  fruit_choice = streamlit.text_input ('what fruit would you like to information about?')
+  if not fruit_choice:
+    streamlit.error("Please select a fruit to get information.")
+   else:
+    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice")
+    fruitvice_normalized = pandas.json_normalize(fruitvice_response.json())
+    streamlit.dataframe(fruitvice_normalized)
+ except urlerror as e:
+    streamlit.error()                                   
 
 # import snowflake.connector
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
